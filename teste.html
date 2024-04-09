@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localizador de Filmes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #search-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        #result-container {
+            margin-top: 20px;
+        }
+        .image-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .image-container img {
+            max-width: 400px;
+            max-height: 300px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Container para o campo de busca e botão -->
+    <div id="search-container">
+        <h1>Localizador de Filmes</h1>
+        <input type="text" id="movie-input" placeholder="Digite o título do filme ou programa de TV">
+        <button onclick="searchMovie()">Buscar</button>
+    </div>
+
+    <!-- Container para exibir os resultados da busca -->
+    <div id="result-container"></div>
+
+    <script>
+        // Função para buscar detalhes do filme e locais de filmagem
+        async function searchMovie() {
+            // Obtém o título do filme digitado pelo usuário
+            const movieTitle = document.getElementById("movie-input").value;
+
+            // Chave de API do OMDb
+            const omdbApiKey = "2d83b506";
+            
+            // Chave de API do Unsplash
+            const unsplashApiKey = "8PGPkNE_XE3YBAtrkV7HQf7aPEXXXKeGu5X1tNEedg8";
+
+            try {
+                // Busca detalhes do filme na API do OMDb
+                const omdbResponse = await fetch(`http://www.omdbapi.com/?t=${movieTitle}&apikey=${omdbApiKey}`);
+                const movieData = await omdbResponse.json();
+
+                // Verifica se o filme foi encontrado
+                if (!movieData || movieData.Response === "False") {
+                    throw new Error("Filme não encontrado");
+                }
+
+                // Exibe os detalhes do filme
+                const resultContainer = document.getElementById("result-container");
+                resultContainer.innerHTML = `
+                    <h2>${movieData.Title}</h2>
+                    <p><strong>Lançamento:</strong> ${movieData.Released}</p>
+                    <p><strong>Gênero:</strong> ${movieData.Genre}</p>
+                    <p><strong>Enredo:</strong> ${movieData.Plot}</p>
+                `;
+                
+                // Busca imagens dos locais de filmagem (supondo que a Unsplash tenha imagens desses locais)
+                const countries = movieData.Country.split(',').map(country => country.trim());
+                countries.forEach(async country => {
+                    try {
+                        const countryResponse = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+                        const countryData = await countryResponse.json();
+                        const countryName = countryData[0].name.common;
+                        const unsplashResponse = await fetch(`https://api.unsplash.com/search/photos?query=${countryName}&client_id=${unsplashApiKey}`);
+                        const unsplashData = await unsplashResponse.json();
+                        if (unsplashData.results.length > 0) {
+                            const imageContainer = document.createElement("div");
+                            imageContainer.classList.add("image-container");
+                            imageContainer.innerHTML = `
+                                <h3>${countryName}</h3>
+                                <img src="${unsplashData.results[0].urls.regular}" alt="${countryName}">
+                            `;
+                            resultContainer.appendChild(imageContainer);
+                        } else {
+                            console.log(`Imagem para ${countryName} não encontrada`);
+                        }
+                    } catch (error) {
+                        console.error(`Erro ao buscar imagens para ${country}:`, error);
+                    }
+                });
+
+            } catch (error) {
+                // Exibe mensagens de erro no console em caso de falha na busca
+                console.error("Erro:", error);
+            }
+        }
+    </script>
+</body>
+</html>
