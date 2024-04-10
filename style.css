@@ -1,112 +1,131 @@
 * {
     padding: 0;
     margin: 0;
-    box-sizing: border-box;
 }
 
-header{
-    background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(255, 255, 255, 0.1));
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-}
-nav{
-    color: #ffff;
-    text-transform: capitalize;
-}
-ul{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style-type: none;
-}
-li{
-    padding: 0 10px;
-    font-size: 20px;
-}
-/*=========================================*/
-.sec_1__img{
-    height: 600px;
-    width: 100%;
-    position: relative;
-    top: 0;
-}
-/*=========================================*/
-.sec_2{
-    background-color: #ffff;
+body {
+    background-color: #1e1e1e;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
     
 }
-.container{
-    background-color: #b3b3b3;
-    width: 360px;
-    height: 360px;
-    margin: 50px 50% 20px 50%;
-    border-radius: 20px;
+header {
+    background-color: #1e1e1e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    position: relative;
+    text-align: center;
+    border-bottom: white 1px solid;
+}
+
+h1 {
+    margin-top: 20px;
+}
+.header__container {
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    background-color: #342D2D;
+    z-index: 1;
+    color: white;
+}
+.header__container__sombra {
+    border-radius: 10px;
+    width: 400px;
+    height: 200px;
+    background-color: #595959;
+    position: absolute;
+    z-index: 0;
+    margin: 10px 0 0 10px;
+}
+#header__container__input-pesquisa {
+    width: 300px;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid #586267;
+    outline: none;
+    padding: 0 0 0 6px;
+    margin-top: 40px;
+}
+.header__container button {
+    margin-top: 10px;
+    border: 1px solid #595959;
+    outline: none;
+    background-color: #586267;
+    color: white;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+}
+.header__container button:hover {
+    margin-top: 10px;
+    border: 1px solid #595959;
+    outline: none;
+    background-color: #5862677e;
+    color: white;
+    width: 100px;
+    height: 30px;
+    border-radius: 10px;
+}
+
+/* MINHA DIV*/
+.Teste {
+    background-color: #b8b7b7;
+    width: 800px;
+    height: auto;
+    display: flex;
+    border-radius: 10px;
+    margin: 10px 20px;
+}
+.Teste h2 {
+    padding: 6px 0 0 6px;
+}
+.Teste__linha {
+    display: flex;
+    align-items: center;
+    padding-left: 10px; /* afasta a div Teste__linha da div Teste*/
+}
+.Teste__linha p{
+    padding-left: 10px; /* afasta o paragrafo do h3*/
+}
+
+/* LADO ESQUERDO DETRO DA DIV TESTE */
+
+.Teste__Lado-esquerdo{
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    align-items: center;
+    max-width: 460px;
 }
-.container__campos{
+
+
+.Teste__Lado-direito {
+    background-color: #b8b7b7;
+    width: 60%;
+    border-radius: 10px;
+    padding: 10px 20px 10px 0;
+    
+}
+
+.Teste__lado-direito__container-img { /*modifica o container pai das duas imagens*/
+    display: flex;
+    justify-content: space-around;
+}
+
+div.image-div{ /* modifica a posição da imagem e do texto*/
+    text-align: center;
     display: flex;
     flex-direction: column;
-    /* margin: auto; */
-}
-label{
-    font-size: 20pt;
-}
-input{
-    height: 30px;
-    border: none;
-    outline: none;
-}
-#campo_nome, #campo_data{
-    margin: 10px 0 20px 0;
-    border-radius: 10px;
-    padding-left: 10px;
-}
-#campo_botao{
-    margin: 25px 0 0 20%;
-    background-color: rgba(0,0,0,0.78);
-    color: #ffff;
-    width: 120px;
-    height: 35;
-    border-radius: 10px;
-    font-weight: bold;
-}
-/*===================================*/
-.footer{
-    background-color: #b3b3b3;
-    height: 200px;
-    /* text-align: center; */
-}
-.footer h2{
-    text-align: center;
-    color: #ffffff;
-    font-size: 20pt ;
-}
-.footer__bloco_pai{
-    display: flex;
     justify-content: center;
+    align-items: center;
+    /* border: 2px solid blue; */
 }
-.footer__bloco_pai h3{
-    color: rgba(0, 0, 0, 0.719);
-}
-.footer__bloco_1, .footer__bloco_2{
-    color: #ffff;
-    height: 160px;
-    width: 300px;
-    margin: 0 60px;
-    padding: 10px 0 0 10px; 
-}
-a{
-    color: #ffff ;
+.Teste__Lado-direito img { /*modifica apenas a imagem*/
+    width: 160px;
+    height: auto;
+    border-radius: 10px;
 }
