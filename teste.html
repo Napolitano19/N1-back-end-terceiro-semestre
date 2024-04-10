@@ -84,50 +84,41 @@
     <main id="result-container"></main>
 
     <script>
-        // Função para buscar detalhes do filme e locais de filmagem
         async function searchMovie() {
-            // Obtém o título do filme digitado pelo usuário
-            const movieTitle = document.getElementById("movie-input").value;
-
-            // Chave de API do OMDb
+            const movieTitle = encodeURIComponent(document.getElementById("movie-input").value);
             const omdbApiKey = "2d83b506";
-            
-            // Chave de API do Unsplash
             const unsplashApiKey = "8PGPkNE_XE3YBAtrkV7HQf7aPEXXXKeGu5X1tNEedg8";
-
+            
             try {
-                // Busca detalhes do filme na API do OMDb
                 const omdbResponse = await fetch(`http://www.omdbapi.com/?s=${movieTitle}&apikey=${omdbApiKey}`);
                 const searchData = await omdbResponse.json();
 
-                // Verifica se a pesquisa retornou resultados
                 if (!searchData || searchData.Response === "False") {
                     throw new Error("Filmes não encontrados");
                 }
 
-                // Limpa o resultado anterior
                 const resultContainer = document.getElementById("result-container");
                 resultContainer.innerHTML = "";
 
-                // Itera sobre os resultados da pesquisa
                 for (const movie of searchData.Search) {
                     const imdbID = movie.imdbID;
                     const movieResponse = await fetch(`http://www.omdbapi.com/?i=${imdbID}&apikey=${omdbApiKey}`);
                     const movieData = await movieResponse.json();
 
-                    // Exibe os detalhes do filme
                     const movieDiv = document.createElement("div");
                     movieDiv.innerHTML = `
                         <h2>${movieData.Title}</h2>
                         <p><strong>Lançamento:</strong> ${movieData.Released}</p>
                         <p><strong>Gênero:</strong> ${movieData.Genre}</p>
                         <p><strong>Enredo:</strong> ${movieData.Plot}</p>
-                        <div class="image-container" id="image-container-${imdbID}"></div>
+                        <div class="image-container" id="image-container-${imdbID}">
+                            <img src="${movieData.Poster}" alt="${movieData.Title} Capa">
+                        </div>
                         <hr>
                     `;
                     resultContainer.appendChild(movieDiv);
 
-                    // Busca imagens dos locais de filmagem (supondo que a Unsplash tenha imagens desses locais)
+
                     const countries = movieData.Country.split(',').map(country => country.trim());
                     for (const country of countries) {
                         try {
@@ -154,12 +145,9 @@
                     }
                 }
             } catch (error) {
-                // Exibe mensagens de erro no console em caso de falha na busca
                 console.error("Erro:", error);
             }
         }
     </script>
 </body>
 </html>
-
-
